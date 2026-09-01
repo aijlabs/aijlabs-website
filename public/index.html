@@ -31,6 +31,9 @@
   .msym { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; line-height: 1; }
   a { color: #0058be; }
   a:hover { color: #00236f; }
+  .roll-word { display: inline-block; opacity: 0; transform: perspective(600px) rotateX(-90deg) translateY(20px); transform-origin: 50% 100%; animation: rollIn 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+  @keyframes rollIn { to { opacity: 1; transform: perspective(600px) rotateX(0deg) translateY(0); } }
+  @media (prefers-reduced-motion: reduce) { .roll-word { animation: none; opacity: 1; transform: none; } }
 </style>
 
 </head>
@@ -74,7 +77,7 @@
       <section style="padding:0 24px;display:flex;flex-wrap:wrap;align-items:center;gap:40px;position:relative;margin-top:8px">
         <div style="position:absolute;top:0;right:0;width:500px;height:500px;background:rgba(0,35,111,0.05);border-radius:9999px;filter:blur(64px);z-index:-1;transform:translate(33%,-25%)"></div>
         <div style="display:flex;flex-direction:column;gap:24px;flex:1 1 420px;min-width:300px">
-          <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,5vw,60px);line-height:1.1;margin:0;text-shadow:0 2px 12px rgba(0,35,111,0.18)">Soluciones de IA para Comercios, Profesionales y Pymes.</h1>
+          <h1 id="heroTitle" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,5vw,60px);line-height:1.1;margin:0;text-shadow:0 2px 12px rgba(0,35,111,0.18)">Soluciones de IA para Comercios, Profesionales y Pymes.</h1>
           <p style="color:#444651;max-width:90%;font-size:19px;line-height:1.6;margin:0">Inteligente. Escalable. Centrado en el humano. Transformamos datos complejos en ventajas competitivas simples y accionables.</p>
           <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:4px">
             <a href="#contacto" style="background:#00236f;color:#fff;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:500;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.12);display:flex;align-items:center;gap:8px">Hablemos <span class="msym" style="font-size:18px">arrow_forward</span></a>
@@ -376,6 +379,15 @@
 
 
 <script>
+(function(){
+  var heroTitle = document.getElementById('heroTitle');
+  if (heroTitle) {
+    var words = heroTitle.textContent.trim().split(/\s+/);
+    heroTitle.innerHTML = words.map(function(w, i){
+      return '<span class="roll-word" style="animation-delay:' + (i * 0.06) + 's">' + w + '&nbsp;</span>';
+    }).join('');
+  }
+})();
 (function(){
   var navToggle=document.getElementById('navToggle'), mobileNav=document.getElementById('mobileNav');
   navToggle.addEventListener('click', function(){
