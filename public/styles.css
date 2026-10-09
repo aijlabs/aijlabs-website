@@ -833,9 +833,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   position: fixed;
   right: 20px;
   bottom: 82px;
-  z-index: 160;
+  z-index: 250;
   width: min(92vw, 380px);
-  height: min(72vh, 560px);
+  height: min(560px, calc(100dvh - 102px));
   display: flex;
   flex-direction: column;
   overflow: hidden;
