@@ -162,5 +162,10 @@
       if (ref && jaiaIframe) jaiaIframe.dataset.src += "?ref=" + encodeURIComponent(ref);
       setChat(true);
     }
+    // Link del mensaje de ausencia de WhatsApp: ?jaia=ausencia abre el chat e informa el origen.
+    if (q.get("jaia") === "ausencia") {
+      if (jaiaIframe) jaiaIframe.dataset.src += "?src=wa-ausencia";
+      setChat(true);
+    }
   }
 })();
