@@ -950,6 +950,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .ico + .tag{margin-top:0}
 
 /* ia-jad: marca sobre fondo oscuro (logo blanco) */
-.devcard__brand { display: flex; align-items: center; gap: 12px; }
-.devcard__brand img { width: 44px; height: 44px; padding: 7px; border-radius: 12px; background: #14142d; object-fit: contain; }
+.devcard__brand { display: flex; align-items: center; gap: 14px; }
+.devcard__brand img { width: 64px; height: 64px; object-fit: contain; }
 .devcard__brand h3 { margin: 0; }
+.devcard__jaia { align-self: flex-start; margin-top: auto; gap: 10px; padding-left: 10px; }
+.devcard__jaia img { width: 28px; height: 28px; border-radius: 50%; }
