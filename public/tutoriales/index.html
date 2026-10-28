@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tutoriales · Ai.J Labs</title>
+  <meta name="description" content="Videos cortos, paso a paso, para que le saques el jugo a las herramientas que usamos con nuestros clientes." />
+  <link rel="canonical" href="https://aijlabs.ar/tutoriales" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Ai.J Labs" />
+  <meta property="og:locale" content="es_AR" />
+  <meta property="og:url" content="https://aijlabs.ar/tutoriales" />
+  <meta property="og:title" content="Tutoriales · Ai.J Labs" />
+  <meta property="og:description" content="Videos cortos, paso a paso, para clientes de Ai.J Labs." />
+  <meta property="og:image" content="https://aijlabs.ar/tutoriales/api-anthropic/portada.jpg" />
+  <link rel="icon" href="/logo-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .tuts { padding: clamp(120px, 14vw, 180px) 0 clamp(48px, 8vw, 112px); }
+    .tuts__hero { max-width: 60ch; margin-bottom: clamp(32px, 5vw, 56px); }
+    .tuts__hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); letter-spacing: -0.04em; line-height: 1.02; margin: 12px 0 16px; }
+    .tuts__layout { display: grid; gap: 32px; }
+    @media (min-width: 960px) { .tuts__layout { grid-template-columns: minmax(0, 1fr) 340px; align-items: start; } }
+    .tuts__stage { background: var(--ink); border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 9; }
+    .tuts__stage video { width: 100%; height: 100%; display: block; background: #000; }
+    .tuts__now h2 { font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -0.03em; margin: 20px 0 8px; }
+    .tuts__now p { max-width: 60ch; line-height: 1.5; color: var(--ink-2); margin: 0; }
+    .tuts__list { display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+    .tuts__item { display: grid; grid-template-columns: 120px 1fr; gap: 12px; width: 100%; text-align: left; padding: 10px; background: var(--paper); border: 1px solid var(--line-2); border-radius: var(--r-sm); cursor: pointer; font: inherit; color: inherit; transition: border-color .2s, background .2s; }
+    .tuts__item:hover { border-color: var(--ink-3); }
+    .tuts__item[aria-current="true"] { border-color: var(--violet); background: var(--violet-wash); }
+    .tuts__item img { width: 120px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; display: block; background: var(--paper-2); }
+    .tuts__item strong { display: block; font-family: var(--font-display); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 4px; }
+    .tuts__item span { font-size: var(--fs-sm); color: var(--ink-3); }
+    .tuts__close { text-align: center; padding: clamp(48px, 7vw, 96px) 0 0; }
+    .tuts__close h2 { font-size: clamp(1.6rem, 4vw, 2.6rem); letter-spacing: -0.035em; margin: 0 0 20px; }
+  </style>
+</head>
+<body>
+  <header class="masthead" id="masthead">
+    <div class="shell masthead__inner">
+      <a href="/" class="masthead__logo" aria-label="Ai.J Labs — inicio"><img src="/logo-full.png" alt="Ai.J Labs" width="200" height="60" /></a>
+      <nav class="masthead__nav" aria-label="Navegación principal"><a href="/"><span>Inicio</span></a><a href="/servicios"><span>Servicios</span></a><a href="/desarrollos"><span>Desarrollos</span></a><a href="/tutoriales" aria-current="page"><span>Tutoriales</span></a><a href="/contacto"><span>Contacto</span></a></nav>
+      <div class="masthead__end">
+        <a href="/contacto" class="btn btn--brand btn--sm">Diagnóstico sin cargo</a>
+        <button id="navToggle" class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
+      </div>
+    </div>
+    <nav id="drawer" class="drawer" aria-label="Navegación" hidden><a href="/">Inicio</a><a href="/servicios">Servicios</a><a href="/desarrollos">Desarrollos</a><a href="/tutoriales">Tutoriales</a><a href="/contacto">Contacto</a><a href="/contacto" class="btn btn--brand btn--block">Diagnóstico sin cargo</a></nav>
+  </header>
+
+  <main id="main" class="tuts">
+    <div class="shell">
+      <section class="tuts__hero">
+        <p class="mono">Tutoriales · Ai.J Labs</p>
+        <h1>Paso a paso, sin vueltas.</h1>
+        <p class="lead">Videos cortos para que hagas todo vos, fácil. Elegí uno de la lista y dale play.</p>
+      </section>
+
+      <div class="tuts__layout">
+        <div class="tuts__now">
+          <div class="tuts__stage"><video id="player" controls playsinline preload="metadata"></video></div>
+          <h2 id="nowTitle"></h2>
+          <p id="nowDesc"></p>
+        </div>
+        <ul class="tuts__list" id="list" aria-label="Lista de tutoriales"></ul>
+      </div>
+
+      <section class="tuts__close">
+        <h2>¿Te trabaste en algún paso?</h2>
+        <a href="https://wa.me/5491165902396" class="btn btn--brand" target="_blank" rel="noopener noreferrer">Escribinos por WhatsApp</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="colophon">
+    <div class="shell">
+      <a href="/" class="colophon__word" aria-label="Ai.J Labs — inicio"><img src="/logo-full.png" alt="Ai.J Labs" width="320" height="96" /></a>
+      <div class="colophon__grid">
+        <p class="colophon__blurb">Automatización e inteligencia artificial aplicada a negocios.<br />Diseñamos soluciones a medida para simplificar procesos, mejorar la atención e impulsar la eficiencia y el crecimiento de tu negocio.</p>
+        <nav aria-label="Navegación del pie">
+          <h2 class="mono">Índice</h2>
+          <a href="/">Inicio</a>
+          <a href="/servicios">Servicios</a>
+          <a href="/desarrollos">Desarrollos</a>
+          <a href="/tutoriales">Tutoriales</a>
+          <a href="/contacto">Contacto</a>
+        </nav>
+        <div>
+          <h2 class="mono">Contacto</h2>
+          <a href="mailto:info@aijlabs.ar">info@aijlabs.ar</a>
+          <a href="https://wa.me/5491165902396" target="_blank" rel="noopener noreferrer">WhatsApp · 11 6590-2396</a>
+          <a href="https://instagram.com/aijlabs" target="_blank" rel="noopener noreferrer">Instagram · @aijlabs</a>
+        </div>
+      </div>
+      <p class="colophon__legal"><span>© 2026 Ai.J Labs</span><span>aijlabs.ar</span></p>
+    </div>
+  </footer>
+
+  <script>
+    // Para sumar un tutorial: copiá la carpeta a /tutoriales/<slug>/ (video.mp4 + portada.jpg) y agregá una línea acá (el más nuevo primero).
+    const TUTORIALES = [
+      { slug: "api-anthropic", titulo: "Cómo obtener tu API key de Anthropic", desc: "Registro, carga de crédito, creación y guardado de la clave, y límite de gasto. 1 minuto.", duracion: "1 min" }
+    ];
+    const $ = (id) => document.getElementById(id);
+    const player = $("player"), list = $("list");
+    const base = (t) => "/tutoriales/" + t.slug + "/";
+    function show(t, play) {
+      player.src = base(t) + "video.mp4"; player.poster = base(t) + "portada.jpg";
+      $("nowTitle").textContent = t.titulo; $("nowDesc").textContent = t.desc;
+      document.title = t.titulo + " · Tutoriales · Ai.J Labs";
+      list.querySelectorAll("button").forEach((b) => b.setAttribute("aria-current", String(b.dataset.slug === t.slug)));
+      history.replaceState(null, "", "#" + t.slug);
+      if (play) player.play().catch(() => {});
+    }
+    TUTORIALES.forEach((t) => {
+      const li = document.createElement("li"), b = document.createElement("button");
+      b.className = "tuts__item"; b.dataset.slug = t.slug; b.type = "button";
+      b.innerHTML = '<img alt="" loading="lazy"><div><strong></strong><span></span></div>';
+      b.querySelector("img").src = base(t) + "portada.jpg";
+      b.querySelector("strong").textContent = t.titulo; b.querySelector("span").textContent = t.duracion;
+      b.addEventListener("click", () => show(t, true));
+      li.appendChild(b); list.appendChild(li);
+    });
+    show(TUTORIALES.find((t) => t.slug === location.hash.slice(1)) || TUTORIALES[0], false);
+  </script>
+  <script src="/main.js" defer></script>
+</body>
+</html>
