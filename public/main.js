@@ -151,7 +151,7 @@
       if (e.key === "Escape" && !jaiaPanel.hidden) setChat(false);
     });
     // Disparadores extra desde el bloque de contacto.
-    ["contactJaia", "contactJaiaBot"].forEach(function (id) {
+    ["contactJaia", "contactJaiaBot", "devJaia"].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener("click", function () { setChat(true); });
     });
@@ -162,5 +162,51 @@
       if (ref && jaiaIframe) jaiaIframe.dataset.src += "?ref=" + encodeURIComponent(ref);
       setChat(true);
     }
+    // Link del mensaje de ausencia de WhatsApp: ?jaia=ausencia abre el chat e informa el origen.
+    if (q.get("jaia") === "ausencia") {
+      if (jaiaIframe) jaiaIframe.dataset.src += "?src=wa-ausencia";
+      setChat(true);
+    }
   }
+})();
+
+/* Logo animado del header: con movimiento reducido queda en el último cuadro */
+(function () {
+  var v = document.querySelector(".masthead__video");
+  if (!v || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  v.removeAttribute("autoplay");
+  v.pause();
+  v.addEventListener("loadedmetadata", function () { v.currentTime = v.duration; });
+})();
+
+/* Video del hero: el movimiento sigue el scroll (scrub). Con movimiento reducido queda en el primer cuadro */
+(function () {
+  var v = document.getElementById("heroScrub");
+  if (!v || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var ready = false, target = 0, current = 0, ticking = false;
+  function progress() {
+    var r = v.getBoundingClientRect(), vh = window.innerHeight;
+    var start = vh * 0.8, span = Math.max(r.height * 0.9, vh * 0.4);
+    return Math.min(1, Math.max(0, (start - r.top) / span));
+  }
+  var last = 0;
+  function frame(now) {
+    ticking = false;
+    if (!ready) return;
+    var dt = Math.min(64, now - (last || now - 16)); last = now;
+    current += (target - current) * (1 - Math.exp(-dt / 55)); // suavizado independiente de los Hz de la pantalla
+    if (Math.abs(target - current) < 0.0004) current = target;
+    var t = Math.round(current * v.duration * 24) / 24; // cuadro exacto: sin saltos entre cuadros
+    var pending = Math.abs(t - v.currentTime) > 0.001;
+    if (pending) v.currentTime = t;
+    if (current !== target || pending) { ticking = true; requestAnimationFrame(frame); } else last = 0;
+  }
+  function onScroll() {
+    target = progress();
+    if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+  }
+  v.addEventListener("loadedmetadata", function () { ready = true; onScroll(); });
+  if (v.readyState >= 1) { ready = true; onScroll(); }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
 })();
