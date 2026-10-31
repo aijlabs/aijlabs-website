@@ -81,12 +81,7 @@
       // Red de seguridad si el rAF se congela (pestaña en segundo plano).
       window.setTimeout(function () { heroTitle.classList.add("is-inview"); }, 1600);
     };
-    // Con la intro activa, el título entra recién cuando el agujero empieza a abrirse.
-    if (document.documentElement.classList.contains("intro-on")) {
-      document.addEventListener("intro-open", showTitle, { once: true });
-    } else {
-      showTitle();
-    }
+    showTitle();
   }
 
   /* ── 4. Ticker infinito ──────────────────────────────────────────────── */
@@ -214,66 +209,4 @@
   if (v.readyState >= 1) { ready = true; onScroll(); }
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
-})();
-
-/* Intro: el agujero del túnel se abre de forma progresiva y deja ver la home adentro (sin sonido) */
-(function () {
-  var root = document.documentElement;
-  var intro = document.getElementById("intro");
-  var v = document.getElementById("introVideo");
-  var skip = document.getElementById("introSkip");
-  if (!intro || !v) return;
-  if (!root.classList.contains("intro-on")) { intro.remove(); return; }
-  window.scrollTo(0, 0);
-  window.addEventListener("pageshow", function () { if (!done) window.scrollTo(0, 0); });
-  var done = false, raf = 0;
-  /* radio del agujero del video (en px de un frame de 640x360) medido por tiempo */
-  var HOLE = [[0,30],[1,29],[2,40],[3,54],[3.5,64],[4,78],[4.33,99],[4.67,130],[5,176],[5.33,208]];
-  var HOLE_END = 5.33, DUR = 6;
-  function holeAt(t) {
-    if (t <= 0) return HOLE[0][1];
-    for (var i = 1; i < HOLE.length; i++) {
-      if (t <= HOLE[i][0]) {
-        var a = HOLE[i - 1], b = HOLE[i];
-        return a[1] + (b[1] - a[1]) * (t - a[0]) / (b[0] - a[0]);
-      }
-    }
-    return HOLE[HOLE.length - 1][1];
-  }
-  function radius() {
-    var w = window.innerWidth, h = window.innerHeight;
-    var s = Math.max(w / 640, h / 360);               /* object-fit: cover */
-    var max = Math.hypot(w, h) / 2 + 12;
-    var t = v.currentTime;
-    var base = holeAt(t) * s * 0.94;
-    if (t <= HOLE_END) return base;
-    var k = Math.min(1, (t - HOLE_END) / (DUR - HOLE_END));
-    return base + (max - base) * k * k;               /* cierre: el agujero se traga la pantalla */
-  }
-  var opened = false;
-  function paint() {
-    if (done) return;
-    if (!opened && v.currentTime >= 3.2) { opened = true; document.dispatchEvent(new Event("intro-open")); }
-    intro.style.setProperty("--intro-r", radius().toFixed(1) + "px");
-    if (v.currentTime >= DUR - 0.05) { finish(); return; }
-    raf = requestAnimationFrame(paint);
-  }
-  function finish() {
-    if (done) return; done = true;
-    cancelAnimationFrame(raf);
-    try { sessionStorage.setItem("introVista", "1"); } catch (e) {}
-    if (!opened) { opened = true; document.dispatchEvent(new Event("intro-open")); }
-    v.pause(); root.classList.remove("intro-on"); intro.remove();
-  }
-  skip.addEventListener("click", finish);
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") finish(); });
-  v.addEventListener("timeupdate", function () { if (!done) intro.style.setProperty("--intro-r", radius().toFixed(1) + "px"); });
-  v.addEventListener("ended", finish);
-  v.addEventListener("error", finish);
-  intro.style.setProperty("--intro-r", radius().toFixed(1) + "px");
-  v.playbackRate = 1.5;
-  var p = v.play();
-  if (p && p.catch) p.catch(finish);
-  raf = requestAnimationFrame(paint);
-  setTimeout(function () { if (!done && v.currentTime === 0) finish(); }, 4000);
 })();

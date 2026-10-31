@@ -30,13 +30,6 @@ Repo: github.com/aijlabs/aijlabs-website (rama `main`). Hosting: Vercel, proyect
   `ffmpeg -y -i <fuente>.mp4 -an -vf "scale=1600:900:flags=lanczos,unsharp=5:5:0.6:5:5:0.0" -c:v libx264 -g 1 -crf 21 -preset slow -pix_fmt yuv420p -movflags +faststart video/hero-scrub.mp4`
 - Logo animado del header: `video/logo-anim.mp4` (muted, loop) + `logo-anim-poster.png`.
 
-## Intro (video sobre la home, solo desktop)
-- `video/intro-tunel.mp4` (+ `intro-tunel-poster.jpg`), overlay `#intro` en `index.html`, lógica en el último IIFE de `main.js`, CSS al final de `styles.css`.
-- Máscara radial `--intro-r` atada a `video.currentTime` (tabla del radio del agujero): la home se ve por el agujero mientras se abre. `playbackRate` 1.5.
-- Se reproduce 1 vez por sesión (`sessionStorage.introVista`). Se saltea con `?jaia=`, reduced-motion, ancho <=820px o pointer coarse. Botón "Saltar intro", Esc, watchdog 4 s.
-- Siempre abre con scroll en el Hero (`scrollRestoration="manual"` + `scrollTo(0,0)`). El título del Hero espera el evento `intro-open`.
-- Para probar sin el límite de 1 vez: sacar `!sessionStorage.getItem("introVista")` del head script y RESTAURARLO antes de publicar.
-
 ## Jaia (chatbot)
 - Link para el mensaje automático de ausencia de WhatsApp: `https://www.aijlabs.ar/?jaia=ausencia` (abre Jaia sabiendo que viene de WA fuera de horario).
 

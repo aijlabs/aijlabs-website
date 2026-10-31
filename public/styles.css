@@ -991,21 +991,3 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .devcard__brand h3 { margin: 0; }
 .devcard__jaia { align-self: flex-start; margin-top: auto; gap: 10px; padding-left: 10px; }
 .devcard__jaia img { width: 28px; height: 28px; border-radius: 50%; }
-
-/* ---------- Intro: túnel que se abre sobre la home ---------- */
-@property --intro-r { syntax: "<length>"; inherits: false; initial-value: 0px; }
-.intro { display: none; }
-.intro-on .intro {
-  display: block; position: fixed; inset: 0; z-index: 9999; background: #000;
-  --intro-r: 0px;
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--intro-r), #000 calc(var(--intro-r) + 5px));
-          mask-image: radial-gradient(circle at 50% 50%, transparent var(--intro-r), #000 calc(var(--intro-r) + 5px));
-}
-.intro-on { overflow: hidden; }
-.intro__video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.intro__skip {
-  position: absolute; right: 20px; bottom: 20px; padding: 10px 18px; min-height: 44px;
-  font: inherit; font-size: .85rem; color: #fff; background: rgba(0,0,0,.45);
-  border: 1px solid rgba(255,255,255,.4); border-radius: 999px; cursor: pointer;
-}
-.intro__skip:hover, .intro__skip:focus-visible { background: rgba(255,255,255,.2); outline: 2px solid #fff; outline-offset: 2px; }
